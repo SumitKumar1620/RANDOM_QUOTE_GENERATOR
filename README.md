@@ -1,4 +1,4 @@
-# Project-3---Random-Quote-Generator
+# Project-3: Random-Quote-Generator
 Project Description: Random Quote Generator
 
 Overview : 
