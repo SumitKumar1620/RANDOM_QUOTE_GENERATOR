@@ -1,19 +1,40 @@
 const quote = document.getElementById("quote");
 const authorName = document.getElementById("author");
-const api_url = "https://api.quotable.io/random";
+const api_url = "https://dummyjson.com/quotes/random";
 const speakerBtn = document.querySelector(".speak");
 const copyBtn = document.querySelector(".clipboard");
 
+const staticQuotes = [
+    { quote: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
+    { quote: "In the middle of every difficulty lies opportunity.", author: "Albert Einstein" },
+    { quote: "It does not matter how slowly you go as long as you do not stop.", author: "Confucius" },
+    { quote: "Believe you can and you're halfway there.", author: "Theodore Roosevelt" },
+    { quote: "Success is not final, failure is not fatal: it is the courage to continue that counts.", author: "Winston Churchill" },
+    { quote: "The future belongs to those who believe in the beauty of their dreams.", author: "Eleanor Roosevelt" },
+    { quote: "Do what you can, with what you have, where you are.", author: "Theodore Roosevelt" },
+    { quote: "Happiness is not something ready made. It comes from your own actions.", author: "Dalai Lama" }
+];
 
+function displayQuote(quoteText, author) {
+    quote.innerHTML = quoteText;
+    authorName.innerHTML = author;
+}
 
-//Using async function which promises a value
+function getRandomStaticQuote() {
+    return staticQuotes[Math.floor(Math.random() * staticQuotes.length)];
+}
+
 async function quoteGen(url){
-    //fetching data from the url and parsing it into JavaScript Object
-    const response = await fetch(url);
-    var data = await response.json();
-    
-    quote.innerHTML = data.content;
-    authorName.innerHTML = data.author
+    try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error("Failed to fetch quote");
+        const data = await response.json();
+
+        displayQuote(data.quote, data.author);
+    } catch (error) {
+        const fallback = getRandomStaticQuote();
+        displayQuote(fallback.quote, fallback.author);
+    }
 }
 
 quoteGen(api_url);
@@ -43,7 +64,7 @@ function tweet(){
 
 
 // async function searchByAuthor(name){
-//     const authorUrl = `https://api.quotable.io//search/authors`;
+//     const authorUrl = `https://dummyjson.com/quotes?limit=0`;
 
 
 // }
